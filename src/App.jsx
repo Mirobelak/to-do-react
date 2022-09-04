@@ -17,6 +17,7 @@ function App() {
      </header>
       <main>
         <Routes> 
+          <Route path="/" element={<></>} ></Route>
           <Route path="content" element={<Content></Content>} ></Route>
           <Route path="about" element={<About></About>} ></Route>
         </Routes>
