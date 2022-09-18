@@ -1,27 +1,22 @@
-import React from 'react'
 import Card from './Card'
+import { useSelector } from "react-redux";
+import {getTodosByStatusFilter} from "../../redux/selector"
+import { Box, Typography } from '@mui/material';
 
-const Cards = ({todos, checkToDo, deleteTodo, filteredTodos,setTodos}) => {
+
+const Cards = () => {
+
+  const {todos, statusFilter} = useSelector(state => state);
+  const filteredTodos = getTodosByStatusFilter(todos, statusFilter);
+
 
   return (
-    <div>
-        {filteredTodos.map((item)=> { 
-            return <Card 
-            setTodos={setTodos}
-            todos={todos}
-            key={item.id} 
-            date={item.date}
-            title={item.title} 
-            text={item.text}
-            checkToDo={checkToDo} 
-            id={item.id}
-            isCompleted={item.isCompleted}
-            deleteTodo={deleteTodo}
-            
-            />
-        })}
-       
-    </div>
+    <Box>
+        {filteredTodos.length ? filteredTodos.map(todo => (
+        <Card key={todo.id} todo={todo} />
+      )) : <Box textAlign="center" sx={{marginTop: "50px"}} >
+            <Typography variant="h2" >Žiadne úlohy na dnes...</Typography></Box>}
+    </Box>
   )
 }
 

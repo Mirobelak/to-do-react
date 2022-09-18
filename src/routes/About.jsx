@@ -1,13 +1,15 @@
-import React from 'react'
+import { Box, Typography } from '@mui/material'
+
+
 
 const About = () => {
-  return (
-    <div>
-      <h1>This is about section...</h1>
-      <h2>Author: Miroslav Belák</h2>
-      <h3>Created: 04.09.2022</h3>
 
-    </div>
+    
+  
+    return (
+    <Box>
+      <Typography>This is about section - example of ReactRouter</Typography>
+    </Box>
   )
 }
 

@@ -1,29 +1,30 @@
 import { FormControl, Container, TextField, Button} from '@mui/material';
 import React, {useState} from "react";
+import { useDispatch } from "react-redux";
+import {addTodo} from "../../redux/actions"
 
-const Form = ({onSubmitButton,setStatus}) => {
-  
+
+
+const Form = () => {
+
+  const dispatch = useDispatch();
+
   const [title,setTitle] = useState("")
   const [text,setText] = useState("")
-  const [date, setDate] = useState(null)
+  const [date, setDate] = useState("")
   
-  const handleChange = (e) => {
+  const handleSubmit = (e) => {
       e.preventDefault();
-      onSubmitButton(text, title, date) 
+      dispatch(addTodo(title, text, date))
       setText("")
       setTitle("")
   }
 
-  const statusHandler = (e) => {
-    setStatus(e.target.value)
-  }
-
-    
   return (
     <Container sx={{
       display: "flex", flexDirection: "column"}} >
-      <h1 style={{textAlign: "center"}}>Content</h1>
-      <form onSubmit={handleChange} >
+      <h1 style={{textAlign: "center"}}>To-Do App</h1>
+      <form onSubmit={handleSubmit} >
       <FormControl fullWidth={true} >
       <TextField value={title} onChange={(e)=> {setTitle(e.target.value)}} label="Úoha na dnes..."  required={true}>
     </TextField>
@@ -35,14 +36,7 @@ const Form = ({onSubmitButton,setStatus}) => {
         Pridaj
     </Button>
   </FormControl>
-
       </form>
-      <select onChange={statusHandler} style={{margin: "30px auto", padding: "12px"}}  name="" id=""
-              >  
-          <option>All</option>
-          <option>Active</option>
-          <option>Done</option>
-        </select>
       </Container>
 
       

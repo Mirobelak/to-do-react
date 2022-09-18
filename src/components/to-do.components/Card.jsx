@@ -1,38 +1,57 @@
-import React from 'react';
-import {Container, Card, CardContent, Typography, IconButton } from '@mui/material';
-import {Check, Delete} from "@mui/icons-material"
+import {useState, useEffect} from 'react';
+import {Container, Card, CardContent, Typography, Checkbox } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { toggleTodo, removeTodo} from '../../redux/actions';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
 
 
-const ToDoCard = ({checkToDo, title, text, id, isCompleted,deleteTodo,date}) => {
+  const ToDoCard = ({todo}) => {
   
-  const markComplete = () => {
-    checkToDo(id);
-   
+  const dispatch = useDispatch()
+
+  const [checked,setChecked] = useState(false)
+
+
+  useEffect(() => {
+    setChecked(todo.completed);
+  }, [todo]);
+
+  
+  const handleCheked = () => dispatch(toggleTodo(todo.id));
+
+  const deleteTodo = () => dispatch(removeTodo(todo.id));
+
+  const removeItemHandler = () => {
+    deleteTodo(todo.id)
   }
 
-  const removeTodo = () => {
-    deleteTodo(id)
-  }
-  
-  const todoStyle = isCompleted ? {textDecoration: "line-through"} : {textDecoration: "none"};
-  
   return (
     <Container  sx={{margin: "20px auto", width: "100%"}} >
     <Card variant="outlined" sx={{visibility: "0.5", width: "100%", height: "fit-content", overflowWrap: "anywhere", borderRadius: "10px"}} >
     <CardContent>
-      <Typography style={todoStyle} >
-          <h1>{title}</h1>
-          <p style={{textAlign: "center"}}>{text} </p>
-          
-          <IconButton onClick={markComplete} >
-            <Check style={{color: "green"}} ></Check>
-          </IconButton>
-          <IconButton onClick={removeTodo}  style={{float: "right"}} >
-            <Delete style={{color: "red"}} ></Delete>
-          </IconButton>
-          <h3>{date}</h3>
-        </Typography>
-        
+    <Checkbox
+            sx={{float: "right"}}
+            size="large" 
+            color='error'
+            onClick={removeItemHandler}
+            icon={<CancelOutlinedIcon sx={{ color:"red" }} />}
+            />
+      <Typography as={todo.completed && "del"} variant="h6" >Úloha na dnes: {todo.title}
+      {checked && <Typography>HOTOVO !</Typography>}</Typography>
+      <hr/>
+      <Typography variant='subtitle1'> Popis úlohy: {todo.text}</Typography>
+          <Checkbox
+            icon={<TaskAltIcon sx={{color: "green"}} />}
+            checkedIcon={<CheckCircleIcon  sx={{ color:"green" }} />}
+            size="large" 
+            checked={checked}
+            onChange={handleCheked}
+            inputProps={{ 'aria-label': 'controlled' }}
+            sx={{float: "right"}}
+              />
+          <Typography variant='h6'>Deadline: {todo.date}</Typography>
     </CardContent>
     </Card>
 </Container>
