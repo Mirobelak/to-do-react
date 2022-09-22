@@ -1,16 +1,18 @@
 import { ADD_TODO, TOGGLE_TODO, REMOVE_TODO } from '../actionsTypes';
+import { AnyAction } from 'redux';
+import {Todo} from '../../dataStructure';
 
-const initialState = {
+const initialState: Todo = {
   todos: [{
-    id: 0,
-    title: "testing",
+    id: 1,
+    title: 'title',
+    text: 'text',
+    date: 'date',
     completed: false
-  }
-    
-  ]
+  }]
 }
 
-const todos = (state = initialState, action) => {
+const todos = (state = initialState, action:AnyAction) => {
   switch(action.type) {
     case ADD_TODO: {
       const { id, title, text, date } = action.payload;
